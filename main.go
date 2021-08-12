@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/Jeffail/gabs"
+	"github.com/buger/jsonparser"
 	"github.com/urfave/cli/v2"
-	"github.com/urfave/cli/v2/altsrc"
 )
 
 func getGlobalJson(fileurl string) (*gabs.Container, error) {
@@ -41,15 +41,18 @@ func main() {
 
 	fileurl := "gconfig.json"
 
-	gflags := []cli.Flag{
-		altsrc.NewBoolFlag(&cli.BoolFlag{Name: "optionbool"}),
-		altsrc.NewIntFlag(&cli.IntFlag{Name: "optionnum"}),
-	}
-
 	app := &cli.App{
 
 		Action: func(c *cli.Context) error {
 			fmt.Println("this is default command action")
+
+			jdata, _err := ioutil.ReadFile(fileurl)
+			if _err == nil {
+				optbool, _ := jsonparser.GetBoolean(jdata, "optionbool")
+				fmt.Println("optionbool:", optbool)
+				optnum, _ := jsonparser.GetInt(jdata, "optionnum")
+				fmt.Println("optnum:", optnum)
+			}
 			return nil
 		},
 
@@ -58,8 +61,12 @@ func main() {
 				Name:    "firstcmd",
 				Aliases: []string{"fc"},
 				Usage:   "first command ",
-				Flags:   gflags,
+				Flags: []cli.Flag{
+					&cli.BoolFlag{Name: "optionbool", Required: true},
+					&cli.IntFlag{Name: "optionnum", Required: true},
+				},
 				Action: func(c *cli.Context) error {
+
 					fmt.Println("optionbool:", c.Bool("optionbool"))
 					fmt.Println("optionnum:", c.Int("optionnum"))
 
@@ -71,9 +78,6 @@ func main() {
 					}
 					return nil
 				},
-				Before: altsrc.InitInputSource(gflags, func() (altsrc.InputSourceContext, error) {
-					return altsrc.NewJSONSourceFromFile(fileurl)
-				}),
 			},
 
 			{
@@ -81,7 +85,7 @@ func main() {
 				Aliases: []string{"sec"},
 				Usage:   "second command ",
 				Flags: []cli.Flag{
-					&cli.StringFlag{Name: "param1"},
+					&cli.StringFlag{Name: "param1", Required: true},
 					&cli.StringFlag{Name: "param2"},
 				},
 				Action: func(c *cli.Context) error {
