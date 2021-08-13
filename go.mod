@@ -1,9 +1,8 @@
-module github.com/daqnext/config-template
+module github.com/daqnext/cli-config-template
 
 go 1.16
 
 require (
-	github.com/Jeffail/gabs v1.4.0
-	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/buger/jsonparser v1.1.1
 	github.com/urfave/cli/v2 v2.3.0
 )
