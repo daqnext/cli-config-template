@@ -9,18 +9,6 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// func overwriteConfig(fileurl string, content []byte) {
-// 	configFile, err := os.OpenFile(fileurl, os.O_RDWR, 0666)
-// 	defer configFile.Close()
-// 	if err != nil {
-// 		return
-// 	}
-// 	configFile.Truncate(0)
-// 	configFile.Seek(0, 0)
-// 	configFile.Write(content)
-// 	configFile.Sync()
-// }
-
 func main() {
 
 	fileurl := "gconfig.json"
