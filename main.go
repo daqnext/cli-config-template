@@ -5,27 +5,13 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 
-	"github.com/Jeffail/gabs"
 	"github.com/buger/jsonparser"
 	"github.com/urfave/cli/v2"
 )
 
-func getGlobalJson(fileurl string) (*gabs.Container, error) {
-
-	byte, err := ioutil.ReadFile(fileurl) // just pass the file name
-	if err != nil {
-		return nil, err
-	}
-	jsonParsed, errjson := gabs.ParseJSON(byte)
-
-	if errjson != nil {
-		return nil, errjson
-	}
-	return jsonParsed, nil
-}
-
-func setGlobalJson(json *gabs.Container, fileurl string) {
+func overwriteConfig(fileurl string, content []byte) {
 	configFile, err := os.OpenFile(fileurl, os.O_RDWR, 0666)
 	defer configFile.Close()
 	if err != nil {
@@ -33,7 +19,7 @@ func setGlobalJson(json *gabs.Container, fileurl string) {
 	}
 	configFile.Truncate(0)
 	configFile.Seek(0, 0)
-	configFile.Write(json.Bytes())
+	configFile.Write(content)
 	configFile.Sync()
 }
 
@@ -70,11 +56,12 @@ func main() {
 					fmt.Println("optionbool:", c.Bool("optionbool"))
 					fmt.Println("optionnum:", c.Int("optionnum"))
 
-					dyj, _err := getGlobalJson(fileurl)
+					jdata, _err := ioutil.ReadFile(fileurl)
 					if _err == nil {
-						dyj.Set(c.Bool("optionbool"), "optionbool")
-						dyj.Set(c.Int("optionnum"), "optionnum")
-						setGlobalJson(dyj, fileurl)
+
+						jdata, _ = jsonparser.Set(jdata, []byte(strconv.FormatBool(c.Bool("optionbool"))), "optionbool")
+						jdata, _ = jsonparser.Set(jdata, []byte(strconv.Itoa(c.Int("optionnum"))), "optionnum")
+						overwriteConfig(fileurl, jdata)
 					}
 					return nil
 				},
