@@ -3,6 +3,6 @@ module github.com/daqnext/cli-config-template
 go 1.16
 
 require (
-	github.com/buger/jsonparser v1.1.1
+	github.com/daqnext/fastjson v0.1.3
 	github.com/urfave/cli/v2 v2.3.0
 )

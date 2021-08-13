@@ -2,26 +2,24 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
-	"strconv"
 
-	"github.com/buger/jsonparser"
+	FastJson "github.com/daqnext/fastjson"
 	"github.com/urfave/cli/v2"
 )
 
-func overwriteConfig(fileurl string, content []byte) {
-	configFile, err := os.OpenFile(fileurl, os.O_RDWR, 0666)
-	defer configFile.Close()
-	if err != nil {
-		return
-	}
-	configFile.Truncate(0)
-	configFile.Seek(0, 0)
-	configFile.Write(content)
-	configFile.Sync()
-}
+// func overwriteConfig(fileurl string, content []byte) {
+// 	configFile, err := os.OpenFile(fileurl, os.O_RDWR, 0666)
+// 	defer configFile.Close()
+// 	if err != nil {
+// 		return
+// 	}
+// 	configFile.Truncate(0)
+// 	configFile.Seek(0, 0)
+// 	configFile.Write(content)
+// 	configFile.Sync()
+// }
 
 func main() {
 
@@ -32,13 +30,17 @@ func main() {
 		Action: func(c *cli.Context) error {
 			fmt.Println("this is default command action")
 
-			jdata, _err := ioutil.ReadFile(fileurl)
-			if _err == nil {
-				optbool, _ := jsonparser.GetBoolean(jdata, "optionbool")
-				fmt.Println("optionbool:", optbool)
-				optnum, _ := jsonparser.GetInt(jdata, "optionnum")
-				fmt.Println("optnum:", optnum)
+			fj, err := FastJson.NewFromFile(fileurl)
+			if err != nil {
+				return err
 			}
+
+			op_bool, _ := fj.GetBoolean("optionbool")
+			op_num, _ := fj.GetInt("optionnum")
+
+			fmt.Println("optionbool:", op_bool)
+			fmt.Println("optionnum:", op_num)
+
 			return nil
 		},
 
@@ -56,13 +58,14 @@ func main() {
 					fmt.Println("optionbool:", c.Bool("optionbool"))
 					fmt.Println("optionnum:", c.Int("optionnum"))
 
-					jdata, _err := ioutil.ReadFile(fileurl)
-					if _err == nil {
-
-						jdata, _ = jsonparser.Set(jdata, []byte(strconv.FormatBool(c.Bool("optionbool"))), "optionbool")
-						jdata, _ = jsonparser.Set(jdata, []byte(strconv.Itoa(c.Int("optionnum"))), "optionnum")
-						overwriteConfig(fileurl, jdata)
+					fj, err := FastJson.NewFromFile(fileurl)
+					if err != nil {
+						return err
 					}
+					fj.SetBoolean(c.Bool("optionbool"), "optionbool")
+					fj.SetInt(c.Int("optionnum"), "optionnum")
+					fj.ClearFileAndOutput(fileurl)
+
 					return nil
 				},
 			},
