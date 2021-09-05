@@ -51,7 +51,7 @@ func main() {
 						return err
 					}
 					fj.SetBoolean(c.Bool("optionbool"), "optionbool")
-					fj.SetInt(c.Int("optionnum"), "optionnum")
+					fj.SetInt(c.Int64("optionnum"), "optionnum")
 					fj.ClearFileAndOutput(fileurl)
 
 					return nil
