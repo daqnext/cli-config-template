@@ -24,10 +24,20 @@ func init() {
 	fmt.Println(string(utils.Green), Logo)
 
 	CliApp := &cli.App{
+		Flags: []cli.Flag{
+			&cli.BoolFlag{Name: "dev", Required: false},
+		},
 		Action: func(c *cli.Context) error {
 
 			////read default config
-			defaultConfigPath := "config/globalconfig.json"
+			dev := c.Bool("dev")
+			var defaultConfigPath string
+			if dev {
+				defaultConfigPath = "config/devconfig.json"
+			} else {
+				defaultConfigPath = "config/proconfig.json"
+			}
+
 			Config, err := fj.NewFromFile(defaultConfigPath)
 			if err != nil {
 				return err
