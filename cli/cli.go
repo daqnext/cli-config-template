@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/daqnext/cli-config-template/utils"
 	fj "github.com/daqnext/fastjson"
 	"github.com/urfave/cli/v2"
 )
@@ -20,7 +21,7 @@ var AppToDO *APP
 
 func init() {
 
-	//fmt.Println("cli.go init")
+	fmt.Println(string(utils.Green), Logo)
 
 	CliApp := &cli.App{
 		Action: func(c *cli.Context) error {
@@ -34,13 +35,13 @@ func init() {
 
 			//replace some of the globalconfig with cli command input
 
-			//flush to config.json
+			//flush to globalconfig.json with overwritten config
 
 			//print config
-			fmt.Println("======== using config ========")
-			fmt.Println(Config.GetContentAsString())
+			fmt.Println(string(utils.Green), "======== using config ========")
+			fmt.Println(string(utils.Purple), Config.GetContentAsString())
 
-			AppToDO = &APP{ConfigFile: defaultConfigPath, AppName: "default", ConfigJson: Config, CliContext: c}
+			AppToDO = &APP{AppName: "default", ConfigFile: defaultConfigPath, ConfigJson: Config, CliContext: c}
 			return nil
 		},
 

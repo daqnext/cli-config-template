@@ -12,6 +12,4 @@ func init() {
 	//init your global components
 	//fmt.Println("global.go init")
 
-	Something = "something string"
-
 }
