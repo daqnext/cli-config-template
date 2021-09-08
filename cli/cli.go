@@ -23,8 +23,10 @@ func readDefaultConfig(c *cli.Context) (*fj.FastJson, string, error) {
 	dev := c.Bool("dev")
 	var defaultConfigPath string
 	if dev {
+		fmt.Println(string(utils.Green), "======== using dev mode ========")
 		defaultConfigPath = "config/devconfig.json"
 	} else {
+		fmt.Println(string(utils.Green), "======== using pro mode ========")
 		defaultConfigPath = "config/proconfig.json"
 	}
 
@@ -52,8 +54,8 @@ func init() {
 			if err != nil {
 				return err
 			}
-			//replace some of the globalconfig with cli command input
-			//flush to globalconfig.json with overwritten config
+			//replace some of the defaultconfig with cli command input
+			//flush to defaultconfig.json with overwritten config
 
 			//print config
 			fmt.Println(string(utils.Green), "======== using config ========")
