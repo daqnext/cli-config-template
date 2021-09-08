@@ -40,6 +40,7 @@ func init() {
 
 			Config, err := fj.NewFromFile(defaultConfigPath)
 			if err != nil {
+				fmt.Println(string(utils.Red), "no proconfig.json , use --dev=true to run dev mode")
 				return err
 			}
 
