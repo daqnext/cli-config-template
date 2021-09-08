@@ -19,6 +19,24 @@ type APP struct {
 
 var AppToDO *APP
 
+func readDefaultConfig(c *cli.Context) (*fj.FastJson, string, error) {
+	dev := c.Bool("dev")
+	var defaultConfigPath string
+	if dev {
+		defaultConfigPath = "config/devconfig.json"
+	} else {
+		defaultConfigPath = "config/proconfig.json"
+	}
+
+	Config, err := fj.NewFromFile(defaultConfigPath)
+	if err != nil {
+		fmt.Println(string(utils.Red), "no proconfig.json , use --dev=true to run dev mode")
+		return nil, "", err
+	} else {
+		return Config, defaultConfigPath, nil
+	}
+}
+
 func init() {
 
 	fmt.Println(string(utils.Green), Logo)
@@ -30,22 +48,11 @@ func init() {
 		Action: func(c *cli.Context) error {
 
 			////read default config
-			dev := c.Bool("dev")
-			var defaultConfigPath string
-			if dev {
-				defaultConfigPath = "config/devconfig.json"
-			} else {
-				defaultConfigPath = "config/proconfig.json"
-			}
-
-			Config, err := fj.NewFromFile(defaultConfigPath)
+			Config, defaultConfigPath, err := readDefaultConfig(c)
 			if err != nil {
-				fmt.Println(string(utils.Red), "no proconfig.json , use --dev=true to run dev mode")
 				return err
 			}
-
 			//replace some of the globalconfig with cli command input
-
 			//flush to globalconfig.json with overwritten config
 
 			//print config
