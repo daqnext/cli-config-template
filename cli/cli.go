@@ -43,6 +43,13 @@ func init() {
 
 	fmt.Println(string(utils.Green), Logo)
 
+	//print any initialzation panic
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(string(utils.Red), "panic errors:", err.(error).Error())
+		}
+	}()
+
 	CliApp := &cli.App{
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "dev", Required: false},
