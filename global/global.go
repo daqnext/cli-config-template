@@ -9,6 +9,7 @@ import (
 var Something string
 
 func init() {
+	Something = "this is something example"
 	//init your global components
 	//fmt.Println("global.go init")
 
