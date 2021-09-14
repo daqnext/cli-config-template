@@ -17,11 +17,11 @@ func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 	somepack.HowToGetGlobalParam()
 
 	///start the server
-	port, err := ConfigJson.GetString("http_port")
+	http_port, err := ConfigJson.GetString("http_port")
 	if err != nil {
 		panic("http_port is not configured")
 	}
-	global.Echo.Start(":" + port)
+	global.Echo.Start(":" + http_port)
 
 }
 
