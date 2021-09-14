@@ -7,8 +7,10 @@
 // according to your cli input , a unique app is selected and started
 // put all the global singleton component in global.go file 
 
-// start with command :
+// !important , for any long-term-runing app like 'service','background job'...
+// a http hearbeat (controller) check is strongly suggest for error detection
 
+// start with command :
 go run ./main.go --dev=true // for dev mod
 go run ./main.go            // default for pro mod
 
