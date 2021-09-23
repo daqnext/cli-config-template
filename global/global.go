@@ -141,7 +141,13 @@ func initDB() {
 }
 
 func ReleaseResource() {
-	Redis.Close()
-	sqlDB.Close()
-	Echo.Close()
+	if Redis != nil {
+		Redis.Close()
+	}
+	if sqlDB != nil {
+		sqlDB.Close()
+	}
+	if Echo != nil {
+		Echo.Close()
+	}
 }

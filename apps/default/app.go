@@ -12,21 +12,19 @@ import (
 )
 
 func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
+
+	defer func() {
+		global.ReleaseResource()
+	}()
+
 	fmt.Println(string(utils.Purple), "hello world , this default app")
-
 	somepack.HowToGetGlobalParam()
-
 	///start the server
 	http_port, err := ConfigJson.GetString("http_port")
 	if err != nil {
 		panic("http_port is not configured")
 	}
 	global.Echo.Start(":" + http_port)
-
-	defer func() {
-		global.ReleaseResource()
-	}()
-
 }
 
 func init() {
