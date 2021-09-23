@@ -22,7 +22,8 @@ var Echo *echo.Echo
 
 var SpMgr *SPR_go.SprJobMgr
 var BGJobM *bgjob.JobManager
-var SqlDB *sql.DB
+var sqlDB *sql.DB
+var GormDB *gorm.DB
 var LocalCache *gofastcache.LocalCache
 
 func init() {
@@ -131,19 +132,21 @@ func initDB() {
 
 	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + db_port + ")/" + db_name + "?charset=utf8mb4&parseTime=True&loc=UTC"
 
-	dbc, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	var erropen error
+	GormDB, erropen = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		//some config
 	})
-	if err != nil {
+	if erropen != nil {
 		panic("failed to connect database")
 	}
-	//设置数据库连接池
-	SqlDB, err = dbc.DB()
-	if err != nil {
+	//set pool
+	var sqlerr error
+	sqlDB, sqlerr = GormDB.DB()
+	if sqlerr != nil {
 		panic("failed to get database")
 	}
-	SqlDB.SetMaxIdleConns(5)
-	SqlDB.SetMaxOpenConns(20)
+	sqlDB.SetMaxIdleConns(5)
+	sqlDB.SetMaxOpenConns(20)
 
 }
 
@@ -151,8 +154,8 @@ func ReleaseResource() {
 	if Redis != nil {
 		Redis.Close()
 	}
-	if SqlDB != nil {
-		SqlDB.Close()
+	if sqlDB != nil {
+		sqlDB.Close()
 	}
 	if Echo != nil {
 		Echo.Close()
