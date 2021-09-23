@@ -8,6 +8,7 @@ import (
 	"github.com/daqnext/BGJOB_GO/bgjob"
 	SPR_go "github.com/daqnext/SPR-go"
 	"github.com/daqnext/cli-config-template/cli"
+	gofastcache "github.com/daqnext/go-fast-cache"
 	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/mysql"
@@ -21,14 +22,16 @@ var Echo *echo.Echo
 var SpMgr *SPR_go.SprJobMgr
 var BGJobM *bgjob.JobManager
 var sqlDB *sql.DB
+var LocalCache *gofastcache.LocalCache
 
 func init() {
 
 	//init your global components
-
+	LocalCache = gofastcache.New()
 	//initDB()
 	//initRedis()
-	//initJobs()
+	//iniGJobs()
+	//initSprJobs()
 	Echo = echo.New()
 
 }
@@ -62,10 +65,12 @@ func initRedis() {
 
 }
 
-func initJobs() {
-
+func iniGJobs() {
 	//////// ini bGJob   //////////////////////
 	BGJobM = bgjob.New()
+}
+
+func initSprJobs() {
 
 	//////// ini spr job //////////////////////
 	redis_addr, _redis_addr_err := cli.AppToDO.ConfigJson.GetString("redis_addr")
