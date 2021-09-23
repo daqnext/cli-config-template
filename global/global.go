@@ -9,6 +9,7 @@ import (
 	SPR_go "github.com/daqnext/SPR-go"
 	"github.com/daqnext/cli-config-template/cli"
 	gofastcache "github.com/daqnext/go-fast-cache"
+	SmartRoutine "github.com/daqnext/go-smart-routine/sr"
 	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/mysql"
@@ -27,6 +28,7 @@ var LocalCache *gofastcache.LocalCache
 func init() {
 
 	//init your global components
+	SmartRoutine.ClearPanics()
 	LocalCache = gofastcache.New()
 	//initDB()
 	//initRedis()
