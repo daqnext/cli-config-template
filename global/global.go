@@ -9,6 +9,8 @@ import (
 	"github.com/daqnext/cli-config-template/cli"
 	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 ///declear the global components
@@ -22,9 +24,9 @@ func init() {
 
 	//init your global components
 
+	//initDB()
 	//initRedis()
 	//initJobs()
-
 	Echo = echo.New()
 
 }
@@ -88,5 +90,50 @@ func initJobs() {
 	if SPR_go_err != nil {
 		panic(SPR_go_err.Error())
 	}
+
+}
+
+func initDB() {
+
+	db_host, db_host_err := cli.AppToDO.ConfigJson.GetString("db_host")
+	if db_host_err != nil {
+		panic("db_host not configured")
+	}
+
+	db_port, db_port_err := cli.AppToDO.ConfigJson.GetString("db_port")
+	if db_port_err != nil {
+		panic("db_port not configured")
+	}
+
+	db_name, db_name_err := cli.AppToDO.ConfigJson.GetString("db_name")
+	if db_name_err != nil {
+		panic("db_name not configured")
+	}
+
+	db_username, db_username_err := cli.AppToDO.ConfigJson.GetString("db_username")
+	if db_username_err != nil {
+		panic("db_username not configured")
+	}
+
+	db_password, db_password_err := cli.AppToDO.ConfigJson.GetString("db_password")
+	if db_password_err != nil {
+		panic("db_password not configured")
+	}
+
+	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + db_port + ")/" + db_name + "?charset=utf8mb4&parseTime=True&loc=UTC"
+
+	dbc, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		//some config
+	})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	//设置数据库连接池
+	sqlDB, err := dbc.DB()
+	if err != nil {
+		panic("failed to get database")
+	}
+	sqlDB.SetMaxIdleConns(5)
+	sqlDB.SetMaxOpenConns(20)
 
 }

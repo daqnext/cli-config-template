@@ -4,5 +4,13 @@
 
     "redis_addr":"127.0.0.1",
     "redis_port":6379,
-    "redis_db":1
+    "redis_db":1,
+
+    "db_host":"localhost",
+    "db_port":"3306",
+    "db_username":"xxx",
+    "db_password":"xxxxx",
+    "db_name":"xxxx"
+
+
 }
