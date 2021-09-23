@@ -23,6 +23,10 @@ func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 	}
 	global.Echo.Start(":" + http_port)
 
+	defer func() {
+		global.ReleaseResource()
+	}()
+
 }
 
 func init() {
