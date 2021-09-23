@@ -2,6 +2,7 @@ package global
 
 import (
 	"context"
+	"database/sql"
 	"strconv"
 
 	"github.com/daqnext/BGJOB_GO/bgjob"
@@ -19,6 +20,7 @@ var Echo *echo.Echo
 
 var SpMgr *SPR_go.SprJobMgr
 var BGJobM *bgjob.JobManager
+var sqlDB *sql.DB
 
 func init() {
 
@@ -129,11 +131,17 @@ func initDB() {
 		panic("failed to connect database")
 	}
 	//设置数据库连接池
-	sqlDB, err := dbc.DB()
+	sqlDB, err = dbc.DB()
 	if err != nil {
 		panic("failed to get database")
 	}
 	sqlDB.SetMaxIdleConns(5)
 	sqlDB.SetMaxOpenConns(20)
 
+}
+
+func ReleaseResource() {
+	Redis.Close()
+	sqlDB.Close()
+	Echo.Close()
 }
