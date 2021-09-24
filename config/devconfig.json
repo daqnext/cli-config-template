@@ -3,7 +3,7 @@
     "http_port":"80",
 
     "redis_addr":"127.0.0.1",
-    "redis_port":6379,
+    "redis_port":"6379",
     "redis_db":1,
 
     "db_host":"localhost",

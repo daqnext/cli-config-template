@@ -3,7 +3,6 @@ package global
 import (
 	"context"
 	"database/sql"
-	"strconv"
 
 	"github.com/daqnext/BGJOB_GO/bgjob"
 	SPR_go "github.com/daqnext/SPR-go"
@@ -46,7 +45,7 @@ func initRedis() {
 		panic("redis_addr not configured")
 	}
 
-	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetInt("redis_port")
+	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetString("redis_port")
 	if redis_port_err != nil {
 		panic("redis_port not configured")
 	}
@@ -57,8 +56,8 @@ func initRedis() {
 	}
 
 	Redis = redis.NewClient(&redis.Options{
-		Addr: redis_addr + ":" + strconv.FormatInt(redis_port, 10),
-		DB:   int(redis_db),
+		Addr: redis_addr + ":" + redis_port,
+		DB:   redis_db,
 	})
 
 	_, err := Redis.Ping(context.Background()).Result()
