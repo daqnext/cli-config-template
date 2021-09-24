@@ -31,10 +31,10 @@ func init() {
 	//init your global components
 	SmartRoutine.ClearPanics()
 	LocalCache = gofastcache.New()
-	initDB()
-	initRedis()
-	iniGJobs()
-	initSprJobs()
+	//initDB()
+	//initRedis()
+	//iniGJobs()
+	//initSprJobs()
 	Echo = echo.New()
 
 }
