@@ -3,6 +3,7 @@ package global
 import (
 	"context"
 	"database/sql"
+	"strconv"
 
 	"github.com/daqnext/BGJOB_GO/bgjob"
 	SPR_go "github.com/daqnext/SPR-go"
@@ -80,9 +81,13 @@ func initSprJobs() {
 		panic("redis_addr not configured")
 	}
 
-	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetInt("redis_port")
+	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetString("redis_port")
 	if redis_port_err != nil {
 		panic("redis_port not configured")
+	}
+	redisPortInt, err := strconv.Atoi(redis_port)
+	if err != nil {
+		panic("redis_port not correct")
 	}
 
 	redis_db, redis_db_err := cli.AppToDO.ConfigJson.GetInt("redis_db")
@@ -93,7 +98,7 @@ func initSprJobs() {
 	var SPR_go_err error
 	SpMgr, SPR_go_err = SPR_go.New(SPR_go.RedisConfig{
 		Addr: redis_addr,
-		Port: int(redis_port),
+		Port: redisPortInt,
 		Db:   int(redis_db),
 	})
 	if SPR_go_err != nil {
