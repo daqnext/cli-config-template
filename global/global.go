@@ -31,10 +31,10 @@ func init() {
 	//init your global components
 	SmartRoutine.ClearPanics()
 	LocalCache = gofastcache.New()
-	//initDB()
-	//initRedis()
-	//iniGJobs()
-	//initSprJobs()
+	initDB()
+	initRedis()
+	iniGJobs()
+	initSprJobs()
 	Echo = echo.New()
 
 }
@@ -46,7 +46,7 @@ func initRedis() {
 		panic("redis_addr not configured")
 	}
 
-	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetString("redis_port")
+	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetInt("redis_port")
 	if redis_port_err != nil {
 		panic("redis_port not configured")
 	}
@@ -57,7 +57,7 @@ func initRedis() {
 	}
 
 	Redis = redis.NewClient(&redis.Options{
-		Addr: redis_addr + ":" + redis_port,
+		Addr: redis_addr + ":" + strconv.Itoa(redis_port),
 		DB:   redis_db,
 	})
 
@@ -81,13 +81,9 @@ func initSprJobs() {
 		panic("redis_addr not configured")
 	}
 
-	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetString("redis_port")
+	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetInt("redis_port")
 	if redis_port_err != nil {
 		panic("redis_port not configured")
-	}
-	redisPortInt, err := strconv.Atoi(redis_port)
-	if err != nil {
-		panic("redis_port not correct")
 	}
 
 	redis_db, redis_db_err := cli.AppToDO.ConfigJson.GetInt("redis_db")
@@ -98,7 +94,7 @@ func initSprJobs() {
 	var SPR_go_err error
 	SpMgr, SPR_go_err = SPR_go.New(SPR_go.RedisConfig{
 		Addr: redis_addr,
-		Port: redisPortInt,
+		Port: redis_port,
 		Db:   int(redis_db),
 	})
 	if SPR_go_err != nil {
@@ -114,7 +110,7 @@ func initDB() {
 		panic("db_host not configured")
 	}
 
-	db_port, db_port_err := cli.AppToDO.ConfigJson.GetString("db_port")
+	db_port, db_port_err := cli.AppToDO.ConfigJson.GetInt("db_port")
 	if db_port_err != nil {
 		panic("db_port not configured")
 	}
@@ -134,7 +130,7 @@ func initDB() {
 		panic("db_password not configured")
 	}
 
-	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + db_port + ")/" + db_name + "?charset=utf8mb4&parseTime=True&loc=UTC"
+	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + strconv.Itoa(db_port) + ")/" + db_name + "?charset=utf8mb4&parseTime=True&loc=UTC"
 
 	var erropen error
 	GormDB, erropen = gorm.Open(mysql.Open(dsn), &gorm.Config{
