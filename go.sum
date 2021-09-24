@@ -11,8 +11,8 @@ github.com/daqnext/fastjson v1.0.0 h1:uiJsz666J0rf2WTVOkPXUaYqXclSkGNCtcxxn/E/Dq
 github.com/daqnext/fastjson v1.0.0/go.mod h1:/l0vJWbS20xVMFJbyMUW6/x5FRpz79gGPm6oolCVFCI=
 github.com/daqnext/go-fast-cache v1.0.0 h1:T9wJ2VUaelyIDlE/SEFqO5fl+0lMllYviOk19DT0hTY=
 github.com/daqnext/go-fast-cache v1.0.0/go.mod h1:T21VDcM6RuLL3uLOWDtF1xo22P+fxD0lc8NMeYkSS6s=
-github.com/daqnext/go-smart-routine v0.1.0 h1:SlDU976vfaUUbvbcBim5R9E937udEM7asR/IkAJ5v60=
-github.com/daqnext/go-smart-routine v0.1.0/go.mod h1:pSXzjZuiMUh/I7dmQ68qYyZ7tQXyFg2qNOqtHFxX8C0=
+github.com/daqnext/go-smart-routine v0.1.1 h1:N+2RBtVKO3FhgNzYsF2cmXIK+H9p11d2fdJd2G+kMVY=
+github.com/daqnext/go-smart-routine v0.1.1/go.mod h1:pSXzjZuiMUh/I7dmQ68qYyZ7tQXyFg2qNOqtHFxX8C0=
 github.com/daqnext/jsonparser v1.1.2 h1:wvFbVlDrc/CHST0pBUkMBi+g/jdHAlDWTGS1OnQOQu8=
 github.com/daqnext/jsonparser v1.1.2/go.mod h1:B0HLHwPJV3n69nZ2Ei8Np/BVHEotzvvEWpCc/FQ7p80=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
