@@ -51,14 +51,26 @@ func initRedis() {
 		panic("redis_port not configured")
 	}
 
+	redis_username, redis_username_err := cli.AppToDO.ConfigJson.GetString("redis_username")
+	if redis_username_err != nil {
+		panic("redis_username not configured")
+	}
+
+	redis_password, redis_password_err := cli.AppToDO.ConfigJson.GetString("redis_password")
+	if redis_password_err != nil {
+		panic("redis_password not configured")
+	}
+
 	redis_db, redis_db_err := cli.AppToDO.ConfigJson.GetInt("redis_db")
 	if redis_db_err != nil {
 		panic("redis_db not configured")
 	}
 
 	Redis = redis.NewClient(&redis.Options{
-		Addr: redis_addr + ":" + strconv.Itoa(redis_port),
-		DB:   redis_db,
+		Addr:     redis_addr + ":" + strconv.Itoa(redis_port),
+		DB:       redis_db,
+		Username: redis_username,
+		Password: redis_password,
 	})
 
 	_, err := Redis.Ping(context.Background()).Result()
@@ -86,16 +98,22 @@ func initSprJobs() {
 		panic("redis_port not configured")
 	}
 
-	redis_db, redis_db_err := cli.AppToDO.ConfigJson.GetInt("redis_db")
-	if redis_db_err != nil {
-		panic("redis_db not configured")
+	redis_username, redis_username_err := cli.AppToDO.ConfigJson.GetString("redis_username")
+	if redis_username_err != nil {
+		panic("redis_username not configured")
+	}
+
+	redis_password, redis_password_err := cli.AppToDO.ConfigJson.GetString("redis_password")
+	if redis_password_err != nil {
+		panic("redis_password not configured")
 	}
 
 	var SPR_go_err error
 	SpMgr, SPR_go_err = SPR_go.New(SPR_go.RedisConfig{
-		Addr: redis_addr,
-		Port: redis_port,
-		Db:   int(redis_db),
+		Addr:     redis_addr,
+		Port:     redis_port,
+		UserName: redis_username,
+		Password: redis_password,
 	})
 	if SPR_go_err != nil {
 		panic(SPR_go_err.Error())
