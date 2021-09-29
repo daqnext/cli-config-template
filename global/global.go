@@ -17,7 +17,7 @@ import (
 )
 
 ///declear the global components
-var Redis *redis.Client
+var Redis *redis.ClusterClient
 var Echo *echo.Echo
 
 var SpMgr *SPR_go.SprJobMgr
@@ -34,7 +34,7 @@ func init() {
 	//initDB()
 	//initRedis()
 	//iniGJobs()
-	//initSprJobs()
+	//initSprJobs() //only for server-side app
 	Echo = echo.New()
 
 }
@@ -61,14 +61,8 @@ func initRedis() {
 		panic("redis_password not configured")
 	}
 
-	redis_db, redis_db_err := cli.AppToDO.ConfigJson.GetInt("redis_db")
-	if redis_db_err != nil {
-		panic("redis_db not configured")
-	}
-
-	Redis = redis.NewClient(&redis.Options{
-		Addr:     redis_addr + ":" + strconv.Itoa(redis_port),
-		DB:       redis_db,
+	Redis = redis.NewClusterClient(&redis.ClusterOptions{
+		Addrs:    []string{redis_addr + ":" + strconv.Itoa(redis_port)},
 		Username: redis_username,
 		Password: redis_password,
 	})
@@ -85,6 +79,7 @@ func iniGJobs() {
 	BGJobM = bgjob.New()
 }
 
+//only for server-side app
 func initSprJobs() {
 
 	//////// ini spr job //////////////////////

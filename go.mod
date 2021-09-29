@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/daqnext/BGJOB_GO v1.0.8
-	github.com/daqnext/SPR-go v1.0.6
+	github.com/daqnext/SPR-go v1.0.7
 	github.com/daqnext/fastjson v1.0.0
 	github.com/daqnext/go-fast-cache v1.0.0
 	github.com/daqnext/go-smart-routine v0.1.1
