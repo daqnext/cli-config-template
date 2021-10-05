@@ -143,7 +143,7 @@ func initDB() {
 		panic("db_password not configured")
 	}
 
-	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + strconv.Itoa(db_port) + ")/" + db_name + "?charset=utf8mb4&parseTime=True&loc=UTC"
+	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + strconv.Itoa(db_port) + ")/" + db_name + "?charset=utf8mb4&loc=UTC"
 
 	var erropen error
 	GormDB, erropen = gorm.Open(mysql.Open(dsn), &gorm.Config{
