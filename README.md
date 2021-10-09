@@ -15,3 +15,9 @@ go run ./main.go --dev=true // for dev mod
 go run ./main.go            // default for pro mod
 
 ```
+
+### publish
+```
+after build your exe file ,don't forget to bring your 'assets' and 'config' folder together 
+as these folders are usded when running
+```
