@@ -139,6 +139,7 @@ func init() {
 	errRun := CliApp.Run(os.Args)
 	if errRun != nil {
 		log.Fatal(errRun)
+		panic(errRun.Error())
 	}
 
 }
