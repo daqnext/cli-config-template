@@ -62,7 +62,7 @@ func init() {
 	ExEPath = runPath[:index]
 
 	fmt.Println(string(utils.Green), Logo)
-	fmt.Println("EXE:"+ExEPath, Logo)
+	fmt.Println(string(utils.Green), "EXE:"+ExEPath)
 
 	//print any initialzation panic
 	defer func() {
