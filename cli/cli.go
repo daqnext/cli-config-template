@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 
 	"github.com/daqnext/cli-config-template/utils"
 	fj "github.com/daqnext/fastjson"
@@ -24,10 +27,10 @@ func readDefaultConfig(c *cli.Context) (*fj.FastJson, string, error) {
 	var defaultConfigPath string
 	if dev {
 		fmt.Println(string(utils.Green), "======== using dev mode ========")
-		defaultConfigPath = "config/devconfig.json"
+		defaultConfigPath = GetPath("config/devconfig.json")
 	} else {
 		fmt.Println(string(utils.Green), "======== using pro mode ========")
-		defaultConfigPath = "config/proconfig.json"
+		defaultConfigPath = GetPath("config/proconfig.json")
 	}
 
 	Config, err := fj.NewFromFile(defaultConfigPath)
@@ -39,9 +42,27 @@ func readDefaultConfig(c *cli.Context) (*fj.FastJson, string, error) {
 	}
 }
 
+var ExEPath string
+
+func GetPath(relpath string) string {
+	return ExEPath + "/" + strings.Trim(relpath, "/")
+}
+
 func init() {
 
+	file, err := exec.LookPath(os.Args[0])
+	if err != nil {
+		panic(err.Error())
+	}
+	runPath, err := filepath.Abs(file)
+	if err != nil {
+		panic(err.Error())
+	}
+	index := strings.LastIndex(runPath, string(os.PathSeparator))
+	ExEPath = runPath[:index]
+
 	fmt.Println(string(utils.Green), Logo)
+	fmt.Println("EXE:"+ExEPath, Logo)
 
 	//print any initialzation panic
 	defer func() {
@@ -115,9 +136,9 @@ func init() {
 		// },
 	}
 
-	err := CliApp.Run(os.Args)
-	if err != nil {
-		log.Fatal(err)
+	errRun := CliApp.Run(os.Args)
+	if errRun != nil {
+		log.Fatal(errRun)
 	}
 
 }

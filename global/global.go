@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"strconv"
+	"strings"
 
 	"github.com/daqnext/BGJOB_GO/bgjob"
 	SPR_go "github.com/daqnext/SPR-go"
@@ -25,6 +26,12 @@ var BGJobM *bgjob.JobManager
 var sqlDB *sql.DB
 var GormDB *gorm.DB
 var LocalCache *gofastcache.LocalCache
+
+var ExEPath string
+
+func GetPath(relpath string) string {
+	return ExEPath + "/" + strings.Trim(relpath, "/")
+}
 
 func init() {
 
