@@ -18,6 +18,8 @@ func init() {
 
 	//config exe path
 	configAbsPath()
+	//ini logger
+	iniLocalLogger()
 	//config app to run
 	errRun := configCliApp().Run(os.Args)
 	if errRun != nil {

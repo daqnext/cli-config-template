@@ -1,9 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
-	"github.com/daqnext/cli-config-template/utils"
 	fj "github.com/daqnext/fastjson"
 	"github.com/urfave/cli/v2"
 )
@@ -17,50 +14,48 @@ type APP struct {
 
 var AppToDO *APP
 
+const APP_DEFAULT_NAME = "default"
+const APP_LOG_NAME = "logs"
+
+func AppIsActive(appName string) bool {
+	if AppToDO.AppName == appName {
+		return true
+	} else {
+		return false
+	}
+}
+
+////////config to do app ///////////
 func configCliApp() *cli.App {
+
+	var todoerr error
+
 	return &cli.App{
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "dev", Required: false},
 		},
 		Action: func(c *cli.Context) error {
-
-			////read default config
-			Config, defaultConfigPath, err := readDefaultConfig(c)
-			if err != nil {
-				return err
+			AppToDO, todoerr = getAppToDo(APP_DEFAULT_NAME, true, c)
+			if todoerr != nil {
+				return todoerr
 			}
-			//replace some of the defaultconfig with cli command input
-			//flush to defaultconfig.json with overwritten config
-
-			//print config
-			fmt.Println(string(utils.Green), "======== using config ========")
-			fmt.Println(string(utils.White), Config.GetContentAsString())
-
-			AppToDO = &APP{AppName: "default", ConfigFile: defaultConfigPath, ConfigJson: Config, CliContext: c}
 			return nil
 		},
 
 		Commands: []*cli.Command{
 			{
-				Name:    "logs",
-				Aliases: []string{"logs"},
+				Name:    APP_LOG_NAME,
+				Aliases: []string{APP_LOG_NAME},
 				Usage:   "print all logs ",
 				Flags: []cli.Flag{
-					&cli.BoolFlag{Name: "dev", Required: false},
 					&cli.IntFlag{Name: "num", Required: false},
 					&cli.BoolFlag{Name: "onlyerr", Required: false},
 				},
 				Action: func(c *cli.Context) error {
-
-					Config, defaultConfigPath, err := readDefaultConfig(c)
-					if err != nil {
-						return err
+					AppToDO, todoerr = getAppToDo(APP_LOG_NAME, false, c)
+					if todoerr != nil {
+						return todoerr
 					}
-					//print config
-					fmt.Println(string(utils.Green), "======== using config ========")
-					fmt.Println(string(utils.White), Config.GetContentAsString())
-
-					AppToDO = &APP{AppName: "logs", ConfigFile: defaultConfigPath, ConfigJson: Config, CliContext: c}
 					return nil
 				},
 			},
@@ -68,22 +63,44 @@ func configCliApp() *cli.App {
 	}
 }
 
-func readDefaultConfig(c *cli.Context) (*fj.FastJson, string, error) {
+////////end config to do app ///////////
+
+func readDefaultConfig(configPrefixPath string, c *cli.Context) (*fj.FastJson, string, error) {
 	dev := c.Bool("dev")
 	var defaultConfigPath string
 	if dev {
-		fmt.Println(string(utils.Green), "======== using dev mode ========")
-		defaultConfigPath = "config/devconfig.json" // GetPath("config/devconfig.json")
+		LocalLogger.Infoln("======== using dev mode ========")
+		defaultConfigPath = configPrefixPath + "devconfig.json"
 	} else {
-		fmt.Println(string(utils.Green), "======== using pro mode ========")
-		defaultConfigPath = GetPath("config/proconfig.json")
+		LocalLogger.Infoln("======== using pro mode ========")
+		defaultConfigPath = configPrefixPath + "proconfig.json"
 	}
+
+	LocalLogger.Info(defaultConfigPath)
 
 	Config, err := fj.NewFromFile(defaultConfigPath)
 	if err != nil {
-		fmt.Println(string(utils.Red), "no proconfig.json , use --dev=true to run dev mode")
+		LocalLogger.Error("no proconfig.json , use --dev=true to run dev mode")
 		return nil, "", err
 	} else {
 		return Config, defaultConfigPath, nil
 	}
+}
+
+func getAppToDo(appName string, needconfig bool, c *cli.Context) (*APP, error) {
+	if needconfig {
+		LocalLogger.Infoln("EXE:" + ExEPath)
+		////read default config
+		Config, defaultConfigPath, err := readDefaultConfig(GetPath("configs/"+appName+"_"), c)
+		if err != nil {
+			return nil, err
+		}
+		LocalLogger.Infoln("======== start of config ========")
+		LocalLogger.Infoln(Config.GetContentAsString())
+		LocalLogger.Infoln("======== end of config ========")
+		return &APP{AppName: appName, ConfigFile: defaultConfigPath, ConfigJson: Config, CliContext: c}, nil
+	} else {
+		return &APP{AppName: appName, ConfigFile: "", ConfigJson: nil, CliContext: c}, nil
+	}
+
 }

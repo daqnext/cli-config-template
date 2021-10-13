@@ -1,13 +1,10 @@
 package cli
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
-
-	"github.com/daqnext/cli-config-template/utils"
 )
 
 var ExEPath string
@@ -27,7 +24,4 @@ func configAbsPath() {
 	}
 	index := strings.LastIndex(runPath, string(os.PathSeparator))
 	ExEPath = runPath[:index]
-
-	fmt.Println(string(utils.Green), Logo)
-	fmt.Println(string(utils.Green), "EXE:"+ExEPath)
 }
