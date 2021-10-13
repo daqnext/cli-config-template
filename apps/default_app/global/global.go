@@ -31,7 +31,7 @@ var LocalCache *gofastcache.LocalCache
 var ExEPath string
 
 func init() {
-	if !cli.AppIsActive(cli.APP_DEFAULT_NAME) {
+	if !cli.AppIsActive(cli.APP_NAME_DEFAULT) {
 		return
 	}
 

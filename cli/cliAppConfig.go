@@ -14,8 +14,8 @@ type APP struct {
 
 var AppToDO *APP
 
-const APP_DEFAULT_NAME = "default"
-const APP_LOG_NAME = "logs"
+const APP_NAME_DEFAULT = "default"
+const APP_NAME_LOG = "logs"
 
 func AppIsActive(appName string) bool {
 	if AppToDO.AppName == appName {
@@ -35,7 +35,7 @@ func configCliApp() *cli.App {
 			&cli.BoolFlag{Name: "dev", Required: false},
 		},
 		Action: func(c *cli.Context) error {
-			AppToDO, todoerr = getAppToDo(APP_DEFAULT_NAME, true, c)
+			AppToDO, todoerr = getAppToDo(APP_NAME_DEFAULT, true, c)
 			if todoerr != nil {
 				return todoerr
 			}
@@ -44,15 +44,15 @@ func configCliApp() *cli.App {
 
 		Commands: []*cli.Command{
 			{
-				Name:    APP_LOG_NAME,
-				Aliases: []string{APP_LOG_NAME},
+				Name:    APP_NAME_LOG,
+				Aliases: []string{APP_NAME_LOG},
 				Usage:   "print all logs ",
 				Flags: []cli.Flag{
 					&cli.IntFlag{Name: "num", Required: false},
 					&cli.BoolFlag{Name: "onlyerr", Required: false},
 				},
 				Action: func(c *cli.Context) error {
-					AppToDO, todoerr = getAppToDo(APP_LOG_NAME, false, c)
+					AppToDO, todoerr = getAppToDo(APP_NAME_LOG, false, c)
 					if todoerr != nil {
 						return todoerr
 					}

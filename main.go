@@ -9,7 +9,7 @@ import (
 func main() {
 
 	switch cli.AppToDO.AppName {
-	case cli.APP_LOG_NAME:
+	case cli.APP_NAME_LOG:
 		logApp.StartLog(cli.AppToDO.ConfigJson, cli.AppToDO.CliContext)
 		break
 	default:
