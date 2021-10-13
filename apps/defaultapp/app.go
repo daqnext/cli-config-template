@@ -1,10 +1,10 @@
-package apps
+package defaultapp
 
 import (
 	"strconv"
 
-	_ "github.com/daqnext/cli-config-template/apps/default/controllers"
-	"github.com/daqnext/cli-config-template/apps/default/somepack"
+	_ "github.com/daqnext/cli-config-template/apps/defaultapp/controllers"
+	"github.com/daqnext/cli-config-template/apps/defaultapp/somepack"
 	"github.com/daqnext/cli-config-template/global"
 	fj "github.com/daqnext/fastjson"
 	"github.com/urfave/cli/v2"

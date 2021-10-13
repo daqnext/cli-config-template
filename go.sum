@@ -9,8 +9,8 @@ github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d h1:U+s90UTSY
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/daqnext/BGJOB_GO v1.1.0 h1:G6eDCZb72LhNIQ5LQakDq1ND8pCpNv6dzm61b4C2Ueg=
 github.com/daqnext/BGJOB_GO v1.1.0/go.mod h1:yiV+zbVbL0HN1cUhuPVdaDVO/irNTkFwbUMtXsi0CQ0=
-github.com/daqnext/LocalLog v0.0.9 h1:/wYGmJZKLTwMp3U9BvdouWsq8IaZykid444t+im71L0=
-github.com/daqnext/LocalLog v0.0.9/go.mod h1:NsuHGlsPhZD9HYO/xksrvE+CdtgfiN2rwFf6rp8X5g8=
+github.com/daqnext/LocalLog v0.1.0 h1:F2f5/vozuCbddMNdqtOZXCNuAc3K4d+xn6xmKxDguCs=
+github.com/daqnext/LocalLog v0.1.0/go.mod h1:NsuHGlsPhZD9HYO/xksrvE+CdtgfiN2rwFf6rp8X5g8=
 github.com/daqnext/SPR-go v1.0.9 h1:8/lFgv6PZcW72TjKMzIp+wEP0+GrI2lOq9R7uEkBJv0=
 github.com/daqnext/SPR-go v1.0.9/go.mod h1:GIl1cptLCGrdO4GRPzpDLRjWNS9tPYilclCz9gDcBeA=
 github.com/daqnext/fastjson v1.0.0 h1:uiJsz666J0rf2WTVOkPXUaYqXclSkGNCtcxxn/E/Dqs=

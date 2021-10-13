@@ -10,11 +10,13 @@
 // !important , for any long-term-runing app like 'service','background job'...
 // a http hearbeat (controller) check is strongly suggest for error detection
 
-// start with command :
+// start default app with command :
 go build && ./cli-config-template --dev=true
 go build && ./cli-config-template  // default for pro mod , need proconfig.json
 
-
+// start the log app with command :
+go build && ./cli-config-template logs --num=10  --dev=true
+go build && ./cli-config-template logs --num=10  // default for pro mod , need proconfig.json
 
 ```
 
