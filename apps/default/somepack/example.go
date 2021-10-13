@@ -1,11 +1,10 @@
 package somepack
 
 import (
-	"fmt"
-
 	"github.com/daqnext/cli-config-template/cli"
+	"github.com/daqnext/cli-config-template/global"
 )
 
 func HowToGetGlobalParam() {
-	fmt.Println(cli.AppToDO.ConfigJson.GetString("config"))
+	global.LocalLogger.Infoln(cli.AppToDO.ConfigJson.GetString("config"))
 }

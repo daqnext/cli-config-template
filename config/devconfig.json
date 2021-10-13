@@ -1,5 +1,8 @@
 {
     "config":"dev",    
+
+    "local_log_level":"DEBU",
+
     "http_port":80,
 
     "db_host":"127.0.0.1",

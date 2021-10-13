@@ -3,12 +3,14 @@ package global
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/daqnext/BGJOB_GO/bgjob"
+	localLog "github.com/daqnext/LocalLog/log"
 	SPR_go "github.com/daqnext/SPR-go"
 	"github.com/daqnext/cli-config-template/cli"
+	"github.com/daqnext/cli-config-template/utils"
 	gofastcache "github.com/daqnext/go-fast-cache"
 	SmartRoutine "github.com/daqnext/go-smart-routine/sr"
 	"github.com/go-redis/redis/v8"
@@ -18,6 +20,8 @@ import (
 )
 
 ///declear the global components
+var LocalLogger *localLog.LocalLog
+
 var Redis *redis.ClusterClient
 var Echo *echo.Echo
 
@@ -29,12 +33,9 @@ var LocalCache *gofastcache.LocalCache
 
 var ExEPath string
 
-func GetPath(relpath string) string {
-	return ExEPath + "/" + strings.Trim(relpath, "/")
-}
-
 func init() {
-
+	//first step to init log
+	initLocalLog()
 	//init your global components
 	SmartRoutine.ClearPanics()
 	LocalCache = gofastcache.New()
@@ -46,26 +47,42 @@ func init() {
 
 }
 
+func initLocalLog() {
+
+	local_log_level, local_log_level_err := cli.AppToDO.ConfigJson.GetString("local_log_level")
+	if local_log_level_err != nil {
+		fmt.Println(string(utils.Red), "Error:")
+		panic("local_log_level not configured")
+	}
+
+	var llerr error
+	LocalLogger, llerr = localLog.New(cli.GetPath("logs"), 2, 20, 30, local_log_level)
+	if llerr != nil {
+		fmt.Println(string(utils.Red), "Error:")
+		panic("local_log error:" + llerr.Error())
+	}
+}
+
 func initRedis() {
 
 	redis_addr, _redis_addr_err := cli.AppToDO.ConfigJson.GetString("redis_addr")
 	if _redis_addr_err != nil {
-		panic("redis_addr not configured")
+		LocalLogger.Fatalln("redis_addr not configured")
 	}
 
 	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetInt("redis_port")
 	if redis_port_err != nil {
-		panic("redis_port not configured")
+		LocalLogger.Fatalln("redis_port not configured")
 	}
 
 	redis_username, redis_username_err := cli.AppToDO.ConfigJson.GetString("redis_username")
 	if redis_username_err != nil {
-		panic("redis_username not configured")
+		LocalLogger.Fatalln("redis_username not configured")
 	}
 
 	redis_password, redis_password_err := cli.AppToDO.ConfigJson.GetString("redis_password")
 	if redis_password_err != nil {
-		panic("redis_password not configured")
+		LocalLogger.Fatalln("redis_password not configured")
 	}
 
 	Redis = redis.NewClusterClient(&redis.ClusterOptions{
@@ -76,7 +93,7 @@ func initRedis() {
 
 	_, err := Redis.Ping(context.Background()).Result()
 	if err != nil {
-		panic("Redis connect failed")
+		LocalLogger.Fatalln("Redis connect failed")
 	}
 
 }
@@ -92,22 +109,22 @@ func initSprJobs() {
 	//////// ini spr job //////////////////////
 	redis_addr, _redis_addr_err := cli.AppToDO.ConfigJson.GetString("redis_addr")
 	if _redis_addr_err != nil {
-		panic("redis_addr not configured")
+		LocalLogger.Fatalln("redis_addr not configured")
 	}
 
 	redis_port, redis_port_err := cli.AppToDO.ConfigJson.GetInt("redis_port")
 	if redis_port_err != nil {
-		panic("redis_port not configured")
+		LocalLogger.Fatalln("redis_port not configured")
 	}
 
 	redis_username, redis_username_err := cli.AppToDO.ConfigJson.GetString("redis_username")
 	if redis_username_err != nil {
-		panic("redis_username not configured")
+		LocalLogger.Fatalln("redis_username not configured")
 	}
 
 	redis_password, redis_password_err := cli.AppToDO.ConfigJson.GetString("redis_password")
 	if redis_password_err != nil {
-		panic("redis_password not configured")
+		LocalLogger.Fatalln("redis_password not configured")
 	}
 
 	var SPR_go_err error
@@ -127,27 +144,28 @@ func initDB() {
 
 	db_host, db_host_err := cli.AppToDO.ConfigJson.GetString("db_host")
 	if db_host_err != nil {
-		panic("db_host not configured")
+		LocalLogger.Fatalln("db_host not configured")
 	}
 
 	db_port, db_port_err := cli.AppToDO.ConfigJson.GetInt("db_port")
 	if db_port_err != nil {
-		panic("db_port not configured")
+
+		LocalLogger.Fatalln("db_port not configured")
 	}
 
 	db_name, db_name_err := cli.AppToDO.ConfigJson.GetString("db_name")
 	if db_name_err != nil {
-		panic("db_name not configured")
+		LocalLogger.Fatalln("db_name not configured")
 	}
 
 	db_username, db_username_err := cli.AppToDO.ConfigJson.GetString("db_username")
 	if db_username_err != nil {
-		panic("db_username not configured")
+		LocalLogger.Fatalln("db_username not configured")
 	}
 
 	db_password, db_password_err := cli.AppToDO.ConfigJson.GetString("db_password")
 	if db_password_err != nil {
-		panic("db_password not configured")
+		LocalLogger.Fatalln("db_password not configured")
 	}
 
 	dsn := db_username + ":" + db_password + "@tcp(" + db_host + ":" + strconv.Itoa(db_port) + ")/" + db_name + "?charset=utf8mb4&loc=UTC"
@@ -157,13 +175,13 @@ func initDB() {
 		//some config
 	})
 	if erropen != nil {
-		panic("failed to connect database")
+		LocalLogger.Fatalln("failed to connect databas")
 	}
 	//set pool
 	var sqlerr error
 	sqlDB, sqlerr = GormDB.DB()
 	if sqlerr != nil {
-		panic("failed to get database")
+		LocalLogger.Fatalln("failed to get database")
 	}
 	sqlDB.SetMaxIdleConns(5)
 	sqlDB.SetMaxOpenConns(20)

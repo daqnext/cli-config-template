@@ -11,8 +11,10 @@
 // a http hearbeat (controller) check is strongly suggest for error detection
 
 // start with command :
-go run ./main.go --dev=true // for dev mod
-go run ./main.go            // default for pro mod
+go build && ./cli-config-template --dev=true
+go build && ./cli-config-template  // default for pro mod , need proconfig.json
+
+
 
 ```
 
