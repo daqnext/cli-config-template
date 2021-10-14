@@ -20,7 +20,7 @@ func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 	clitool.LocalLogger.Infoln("hello world , this default app")
 	somepack.HowToGetGlobalParam()
 	///start the server
-	//global.EchoServer.Start()
+	global.EchoServer.Start()
 }
 
 func init() {

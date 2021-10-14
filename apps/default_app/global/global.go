@@ -37,8 +37,12 @@ func init() {
 	BGJobM = components.InitBGJobs()
 	LocalCache = components.InitFastCache()
 
+	var err error
+	EchoServer, err = components.InitEchoServer()
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
 	////////////ini more components config as you need///////////////////
-	// var err error
 	// GormDB, sqlDB, err = components.InitDB()
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
@@ -48,10 +52,6 @@ func init() {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
 	// SpMgr, err = components.InitSprJobs()
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
-	// EchoServer, err = components.InitEchoServer()
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
