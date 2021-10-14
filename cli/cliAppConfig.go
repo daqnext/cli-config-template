@@ -65,22 +65,22 @@ func configCliApp() *cli.App {
 
 ////////end config to do app ///////////
 
-func readDefaultConfig(configPrefixPath string, c *cli.Context) (*fj.FastJson, string, error) {
+func readDefaultConfig(configPath string, appName string, c *cli.Context) (*fj.FastJson, string, error) {
 	dev := c.Bool("dev")
 	var defaultConfigPath string
 	if dev {
 		LocalLogger.Infoln("======== using dev mode ========")
-		defaultConfigPath = configPrefixPath + "devconfig.json"
+		defaultConfigPath = configPath + "/dev/" + appName + ".json"
 	} else {
 		LocalLogger.Infoln("======== using pro mode ========")
-		defaultConfigPath = configPrefixPath + "proconfig.json"
+		defaultConfigPath = configPath + "/pro/" + appName + ".json"
 	}
 
 	LocalLogger.Info(defaultConfigPath)
 
 	Config, err := fj.NewFromFile(defaultConfigPath)
 	if err != nil {
-		LocalLogger.Error("no proconfig.json , use --dev=true to run dev mode")
+		LocalLogger.Error("no " + appName + ".json under /configs/pro folder , use --dev=true to run dev mode")
 		return nil, "", err
 	} else {
 		return Config, defaultConfigPath, nil
@@ -91,7 +91,7 @@ func getAppToDo(appName string, needconfig bool, c *cli.Context) (*APP, error) {
 	if needconfig {
 		LocalLogger.Infoln("EXE:" + ExEPath)
 		////read default config
-		Config, defaultConfigPath, err := readDefaultConfig(GetPath("configs/"+appName+"_"), c)
+		Config, defaultConfigPath, err := readDefaultConfig(GetPath("configs"), appName, c)
 		if err != nil {
 			return nil, err
 		}
