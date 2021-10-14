@@ -6,7 +6,7 @@ require (
 	github.com/daqnext/BGJOB_GO v1.1.0
 	github.com/daqnext/ECTSM-go v0.1.4
 	github.com/daqnext/ESUploader v0.2.2
-	github.com/daqnext/LocalLog v0.1.1
+	github.com/daqnext/LocalLog v0.1.8
 	github.com/daqnext/SPR-go v1.0.9
 	github.com/daqnext/fastjson v1.0.0
 	github.com/daqnext/go-fast-cache v1.0.0
