@@ -6,6 +6,7 @@ import (
 	"github.com/daqnext/BGJOB_GO/bgjob"
 	"github.com/daqnext/ECTSM-go/http/server"
 	SPR_go "github.com/daqnext/SPR-go"
+	elasticsearch "github.com/olivere/elastic/v7"
 
 	"github.com/daqnext/cli-config-template/cli"
 	"github.com/daqnext/cli-config-template/components"
@@ -24,6 +25,7 @@ var GormDB *gorm.DB
 var LocalCache *gofastcache.LocalCache
 var EctServer *server.EctHttpServer
 var InfuraClient *components.InfuraClient
+var ESClient *elasticsearch.Client
 
 func init() {
 	if !cli.AppIsActive(cli.APP_NAME_DEFAULT) {
@@ -61,6 +63,11 @@ func init() {
 	// }
 
 	// InfuraClient, err = components.InitInfura()
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+
+	// ESClient, err = components.InitElasticSearch()
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
