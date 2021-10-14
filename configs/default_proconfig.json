@@ -1,0 +1,21 @@
+{
+    "config": "dev",
+    "http_port": 80,
+    "http_static_rel_folder": "/assets/apps/default_app/web",
+    "ectm_s_prikey": "xxxx",
+    "ectm_s_pubkey": "xxxx",
+    "db_host": "xxxx",
+    "db_port": 3306,
+    "db_username": "xxxx",
+    "db_password": "xxxx",
+    "db_name": "xxxx",
+    "redis_addr": "xxxx",
+    "redis_port": 6379,
+    "redis_username": "",
+    "redis_password": "",
+    "elasticsearch_addr": "xxxx",
+    "elasticsearch_username": "xxxx",
+    "elasticsearch_password": "xxxx",
+    "infura1x": "xxxx",
+    "infura2": "xxxx"
+}

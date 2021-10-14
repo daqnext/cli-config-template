@@ -13,7 +13,7 @@ func init() {
 		return
 	}
 
-	global.Echo.GET("/heartbeat", func(c echo.Context) error {
+	global.EchoServer.Echo.GET("/heartbeat", func(c echo.Context) error {
 		r := struct {
 			UnixTime int64
 		}{
