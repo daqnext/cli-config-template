@@ -98,8 +98,8 @@ github.com/daqnext/ECTSM-go v0.1.4 h1:LhNvQg7FFAObRAyd5tyWpZtwSiz3Kl7fRHaCZuZHf3
 github.com/daqnext/ECTSM-go v0.1.4/go.mod h1:sAiC/zwoojI8ddXcGkKFB0UFy/Mw1CZY11c5CBrgROs=
 github.com/daqnext/ESUploader v0.2.2 h1:tDHr5tR/lZP5wcqEWtl7kdV5swkAms7ky2pfCwmZtrE=
 github.com/daqnext/ESUploader v0.2.2/go.mod h1:lFVuzXBFgeQoUFKy9gWYGztnYMNpUJW2u6gB0mEtdgQ=
-github.com/daqnext/LocalLog v0.1.8 h1:44tvBxdn/3pqXis1vveC4RzbLvKuDcgwIvdav0rlvxk=
-github.com/daqnext/LocalLog v0.1.8/go.mod h1:NsuHGlsPhZD9HYO/xksrvE+CdtgfiN2rwFf6rp8X5g8=
+github.com/daqnext/LocalLog v0.1.9 h1:YFyazkJ04qRhnYXUfzy/eV0QGu0MaAZjOS/F5aJ5k0g=
+github.com/daqnext/LocalLog v0.1.9/go.mod h1:NsuHGlsPhZD9HYO/xksrvE+CdtgfiN2rwFf6rp8X5g8=
 github.com/daqnext/SPR-go v1.0.9 h1:8/lFgv6PZcW72TjKMzIp+wEP0+GrI2lOq9R7uEkBJv0=
 github.com/daqnext/SPR-go v1.0.9/go.mod h1:GIl1cptLCGrdO4GRPzpDLRjWNS9tPYilclCz9gDcBeA=
 github.com/daqnext/fastjson v1.0.0 h1:uiJsz666J0rf2WTVOkPXUaYqXclSkGNCtcxxn/E/Dqs=
