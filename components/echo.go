@@ -80,7 +80,7 @@ func NewEchoLogger(l *localLog.LocalLog) echo.MiddlewareFunc {
 			} else {
 				//info log ,only for loglevels : debug or trace
 				if l.Level >= localLog.LLEVEL_DEBUG {
-					l.WithFields(localLog.Fields{
+					lentry := l.WithFields(localLog.Fields{
 						"request":     c.Request().RequestURI,
 						"method":      c.Request().Method,
 						"remote":      c.Request().RemoteAddr,
@@ -88,7 +88,13 @@ func NewEchoLogger(l *localLog.LocalLog) echo.MiddlewareFunc {
 						"text_status": http.StatusText(c.Response().Status),
 						"took":        time.Since(start),
 						"request_id":  c.Request().Header.Get("X-Request-Id"),
-					}).Infoln("request success")
+					})
+					if l.Level == localLog.LLEVEL_DEBUG {
+						lentry.Infoln("request success")
+					} else {
+						lentry.Traceln("request success")
+					}
+
 				}
 			}
 			return nil

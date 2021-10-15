@@ -137,7 +137,15 @@ func (l *gormLocalLogger) Trace(ctx context.Context, begin time.Time, fc func() 
 		if l.SourceField != "" {
 			fields[l.SourceField] = utils.FileWithLineNum()
 		}
-		l.LocalLogger.WithContext(ctx).WithFields(fields).Infof("%s [%s]", sql, elapsed)
+
+		lentry := l.LocalLogger.WithContext(ctx).WithFields(fields)
+
+		if l.LocalLogger.Level == localLog.LLEVEL_DEBUG {
+			lentry.Debugln("%s [%s]", sql, elapsed)
+		} else {
+			lentry.Traceln("%s [%s]", sql, elapsed)
+		}
+
 	}
 
 }

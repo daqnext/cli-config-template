@@ -28,13 +28,16 @@ var InfuraClient *components.InfuraClient
 var ESClient *elasticsearch.Client
 
 func init() {
+
 	if !cli.AppIsActive(cli.APP_NAME_DEFAULT) {
 		return
 	}
 
 	//first step to init log
-
-	components.InitLocalLog(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	inilogerr := components.InitLocalLog(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	if inilogerr != nil {
+		panic(inilogerr.Error())
+	}
 	components.InitSmartRoutine()
 	BGJobM = components.InitBGJobs()
 	LocalCache = components.InitFastCache()
