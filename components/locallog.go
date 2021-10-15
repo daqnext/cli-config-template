@@ -3,14 +3,18 @@ package components
 import (
 	"errors"
 
-	"github.com/daqnext/cli-config-template/cli"
+	localLog "github.com/daqnext/LocalLog/log"
+	fj "github.com/daqnext/fastjson"
 )
 
-func InitLocalLog() error {
-	local_log_level, local_log_level_err := cli.AppToDO.ConfigJson.GetString("local_log_level")
+func InitLocalLog(localLogger_ *localLog.LocalLog, ConfigJson *fj.FastJson) error {
+	local_log_level, local_log_level_err := ConfigJson.GetString("local_log_level")
 	if local_log_level_err != nil {
 		return errors.New("local_log_level [string] in config.json not defined," + local_log_level_err.Error())
 	}
-	cli.LocalLogger.ResetLevel(local_log_level)
+	err := localLogger_.ResetLevel(local_log_level)
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -5,7 +5,8 @@ import (
 	"errors"
 	"math/rand"
 
-	"github.com/daqnext/cli-config-template/cli"
+	fj "github.com/daqnext/fastjson"
+
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
@@ -17,12 +18,12 @@ type InfuraClient struct {
 infura1
 infura2
 */
-func InitInfura() (*InfuraClient, error) {
+func InitInfura(ConfigJson *fj.FastJson) (*InfuraClient, error) {
 
 	var InfuraClients []*ethclient.Client
 
 	////infura ini/////
-	infura1, err := cli.AppToDO.ConfigJson.GetString("infura1")
+	infura1, err := ConfigJson.GetString("infura1")
 	if err != nil {
 		return nil, errors.New("infura1 [string] in config.json not defined," + err.Error())
 	}
@@ -37,7 +38,7 @@ func InitInfura() (*InfuraClient, error) {
 
 	InfuraClients = append(InfuraClients, client1)
 
-	infura2, err := cli.AppToDO.ConfigJson.GetString("infura2")
+	infura2, err := ConfigJson.GetString("infura2")
 	if err != nil {
 		return nil, errors.New("infura2 [string] in config.json not defined," + err.Error())
 	}

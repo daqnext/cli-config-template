@@ -34,40 +34,40 @@ func init() {
 
 	//first step to init log
 
-	components.InitLocalLog()
+	components.InitLocalLog(cli.LocalLogger, cli.AppToDO.ConfigJson)
 	components.InitSmartRoutine()
 	BGJobM = components.InitBGJobs()
 	LocalCache = components.InitFastCache()
 
 	var err error
-	EchoServer, err = components.InitEchoServer()
+	EchoServer, err = components.InitEchoServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
 	if err != nil {
 		cli.LocalLogger.Fatal(err.Error())
 	}
 	////////////ini more components config as you need///////////////////
-	// GormDB, sqlDB, err = components.InitDB()
+	// GormDB, sqlDB, err = components.InitDB(cli.LocalLogger, cli.AppToDO.ConfigJson)
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
-	// Redis, err = components.InitRedis()
+	// Redis, err = components.InitRedis(cli.AppToDO.ConfigJson)
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
-	// SpMgr, err = components.InitSprJobs()
+	// SpMgr, err = components.InitSprJobs(cli.AppToDO.ConfigJson)
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
-	// EctServer, err = components.InitEctmServer()
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
-
-	// InfuraClient, err = components.InitInfura()
+	// EctServer, err = components.InitEctmServer(cli.AppToDO.ConfigJson)
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
 
-	// ESClient, err = components.InitElasticSearch()
+	// InfuraClient, err = components.InitInfura(cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+
+	// ESClient, err = components.InitElasticSearch(cli.AppToDO.ConfigJson)
 	// if err != nil {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }

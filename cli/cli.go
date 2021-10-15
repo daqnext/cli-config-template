@@ -1,23 +1,20 @@
 package cli
 
 import (
-	"fmt"
 	"log"
 	"os"
 
-	"github.com/daqnext/cli-config-template/utils"
+	"github.com/daqnext/utils/color_util"
 )
 
 func init() {
 	//print any initialzation panic
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(string(utils.Red), "panic errors:", err.(error).Error())
+			color_util.ColorPrintln(color_util.Red, "panic errors:", err.(error).Error())
 		}
 	}()
 
-	//config exe path
-	configAbsPath()
 	//ini logger
 	iniLocalLogger()
 	//config app to run

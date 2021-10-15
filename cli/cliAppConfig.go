@@ -2,6 +2,7 @@ package cli
 
 import (
 	fj "github.com/daqnext/fastjson"
+	"github.com/daqnext/utils/path_util"
 	"github.com/urfave/cli/v2"
 )
 
@@ -64,16 +65,15 @@ func configCliApp() *cli.App {
 }
 
 ////////end config to do app ///////////
-
-func readDefaultConfig(configPath string, appName string, c *cli.Context) (*fj.FastJson, string, error) {
+func readDefaultConfig(appName string, c *cli.Context) (*fj.FastJson, string, error) {
 	dev := c.Bool("dev")
 	var defaultConfigPath string
 	if dev {
 		LocalLogger.Infoln("======== using dev mode ========")
-		defaultConfigPath = configPath + "/dev/" + appName + ".json"
+		defaultConfigPath = path_util.GetAbsPath("configs/dev/" + appName + ".json")
 	} else {
 		LocalLogger.Infoln("======== using pro mode ========")
-		defaultConfigPath = configPath + "/pro/" + appName + ".json"
+		defaultConfigPath = path_util.GetAbsPath("configs/pro/" + appName + ".json")
 	}
 
 	LocalLogger.Info(defaultConfigPath)
@@ -89,9 +89,9 @@ func readDefaultConfig(configPath string, appName string, c *cli.Context) (*fj.F
 
 func getAppToDo(appName string, needconfig bool, c *cli.Context) (*APP, error) {
 	if needconfig {
-		LocalLogger.Infoln("EXE:" + ExEPath)
+		path_util.ExEPathPrintln()
 		////read default config
-		Config, defaultConfigPath, err := readDefaultConfig(GetPath("configs"), appName, c)
+		Config, defaultConfigPath, err := readDefaultConfig(appName, c)
 		if err != nil {
 			return nil, err
 		}
