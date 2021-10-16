@@ -12,7 +12,7 @@ require (
 	github.com/daqnext/go-fast-cache v1.0.0
 	github.com/daqnext/go-smart-routine v0.1.2
 	github.com/daqnext/utils v0.0.6
-	github.com/ethereum/go-ethereum v1.10.9
+	github.com/ethereum/go-ethereum v1.10.8
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/labstack/echo/v4 v4.5.0
 	github.com/olivere/elastic/v7 v7.0.29
