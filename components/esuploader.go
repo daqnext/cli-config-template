@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/daqnext/ESUploader/uploader"
+	"github.com/daqnext/LocalLog/log"
 	fj "github.com/daqnext/fastjson"
 )
 
@@ -12,7 +13,7 @@ elasticsearch_addr
 elasticsearch_username
 elasticsearch_password
 */
-func InitESUploader(ConfigJson *fj.FastJson) (*uploader.Uploader, error) {
+func InitESUploader(localLogger *log.LocalLog, ConfigJson *fj.FastJson) (*uploader.Uploader, error) {
 
 	elasticsearch_addr, elasticsearch_addr_err := ConfigJson.GetString("elasticsearch_addr")
 	if elasticsearch_addr_err != nil {
@@ -29,7 +30,7 @@ func InitESUploader(ConfigJson *fj.FastJson) (*uploader.Uploader, error) {
 		return nil, errors.New("elasticsearch_password [string] in config.json not defined," + elasticsearch_password_err.Error())
 	}
 
-	ESUploader, err := uploader.New(elasticsearch_addr, elasticsearch_username, elasticsearch_password)
+	ESUploader, err := uploader.New(elasticsearch_addr, elasticsearch_username, elasticsearch_password, localLogger)
 	if err != nil {
 		return nil, err
 	}

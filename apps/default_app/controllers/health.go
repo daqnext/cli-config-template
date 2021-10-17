@@ -4,12 +4,11 @@ import (
 	"time"
 
 	"github.com/daqnext/cli-config-template/apps/default_app/global"
-	"github.com/daqnext/cli-config-template/cli"
 	"github.com/labstack/echo/v4"
 )
 
 func init() {
-	if !cli.AppIsActive(cli.APP_NAME_DEFAULT) || global.EchoServer == nil {
+	if !global.GLOBAL_INIT_FINISHED {
 		return
 	}
 

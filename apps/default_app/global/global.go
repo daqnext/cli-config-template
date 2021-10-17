@@ -6,16 +6,22 @@ import (
 	"github.com/daqnext/BGJOB_GO/bgjob"
 	"github.com/daqnext/ECTSM-go/http/server"
 	SPR_go "github.com/daqnext/SPR-go"
-	elasticsearch "github.com/olivere/elastic/v7"
 
 	"github.com/daqnext/cli-config-template/cli"
 	"github.com/daqnext/cli-config-template/components"
+
 	gofastcache "github.com/daqnext/go-fast-cache"
+
 	"github.com/go-redis/redis/v8"
+	elasticsearch "github.com/olivere/elastic/v7"
 	"gorm.io/gorm"
+
+	"github.com/daqnext/ESUploader/uploader"
 )
 
-///declear the global components
+var GLOBAL_INIT_FINISHED bool
+
+var ESUploader *uploader.Uploader
 var Redis *redis.ClusterClient
 var EchoServer *components.EchoServer
 var SpMgr *SPR_go.SprJobMgr
@@ -25,55 +31,60 @@ var GormDB *gorm.DB
 var LocalCache *gofastcache.LocalCache
 var EctServer *server.EctHttpServer
 var InfuraClient *components.InfuraClient
-var ESClient *elasticsearch.Client
+var ElasticSClient *elasticsearch.Client
 
 func init() {
-
 	if !cli.AppIsActive(cli.APP_NAME_DEFAULT) {
 		return
 	}
 
-	//first step to init log
-	inilogerr := components.InitLocalLog(cli.LocalLogger, cli.AppToDO.ConfigJson)
-	if inilogerr != nil {
-		panic(inilogerr.Error())
+	//init your global components
+	err := components.InitLocalLog(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	if err != nil {
+		panic(err.Error())
 	}
+	LocalCache = components.InitFastCache(cli.LocalLogger)
 	components.InitSmartRoutine()
-	BGJobM = components.InitBGJobs()
-	LocalCache = components.InitFastCache()
+	BGJobM = components.InitBGJobs(cli.LocalLogger)
 
-	var err error
+	cli.LocalLogger.Info("init system .....")
+	////////////ini more components config as you need///////////////////
+	GormDB, sqlDB, err = components.InitDB(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
+
+	Redis, err = components.InitRedis(cli.AppToDO.ConfigJson)
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
+	SpMgr, err = components.InitSprJobs(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
+	EctServer, err = components.InitEctmServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
+
+	InfuraClient, err = components.InitInfura(cli.AppToDO.ConfigJson)
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
+
 	EchoServer, err = components.InitEchoServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
 	if err != nil {
 		cli.LocalLogger.Fatal(err.Error())
 	}
-	////////////ini more components config as you need///////////////////
-	// GormDB, sqlDB, err = components.InitDB(cli.LocalLogger, cli.AppToDO.ConfigJson)
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
-	// Redis, err = components.InitRedis(cli.AppToDO.ConfigJson)
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
-	// SpMgr, err = components.InitSprJobs(cli.AppToDO.ConfigJson)
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
-	// EctServer, err = components.InitEctmServer(cli.AppToDO.ConfigJson)
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
 
-	// InfuraClient, err = components.InitInfura(cli.AppToDO.ConfigJson)
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
+	ElasticSClient, err = components.InitElasticSearch(cli.AppToDO.ConfigJson)
+	if err != nil {
+		cli.LocalLogger.Fatal(err.Error())
+	}
 
-	// ESClient, err = components.InitElasticSearch(cli.AppToDO.ConfigJson)
-	// if err != nil {
-	// 	cli.LocalLogger.Fatal(err.Error())
-	// }
+	cli.LocalLogger.Info("=========== end of init system ==================")
+
+	GLOBAL_INIT_FINISHED = true
 
 }
 

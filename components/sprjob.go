@@ -3,6 +3,7 @@ package components
 import (
 	"errors"
 
+	localLog "github.com/daqnext/LocalLog/log"
 	SPR_go "github.com/daqnext/SPR-go"
 	fj "github.com/daqnext/fastjson"
 )
@@ -14,7 +15,7 @@ redis_password
 redis_port
 */
 
-func InitSprJobs(ConfigJson *fj.FastJson) (*SPR_go.SprJobMgr, error) {
+func InitSprJobs(localLogger_ *localLog.LocalLog, ConfigJson *fj.FastJson) (*SPR_go.SprJobMgr, error) {
 
 	//////// ini spr job //////////////////////
 	redis_addr, _redis_addr_err := ConfigJson.GetString("redis_addr")
@@ -42,7 +43,7 @@ func InitSprJobs(ConfigJson *fj.FastJson) (*SPR_go.SprJobMgr, error) {
 		Port:     redis_port,
 		Password: redis_password,
 		UserName: redis_username,
-	})
+	}, localLogger_)
 
 	if SPR_go_err != nil {
 		return nil, SPR_go_err

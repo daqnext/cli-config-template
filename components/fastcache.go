@@ -1,7 +1,10 @@
 package components
 
-import gofastcache "github.com/daqnext/go-fast-cache"
+import (
+	localLog "github.com/daqnext/LocalLog/log"
+	gofastcache "github.com/daqnext/go-fast-cache"
+)
 
-func InitFastCache() *gofastcache.LocalCache {
-	return gofastcache.New()
+func InitFastCache(localLogger_ *localLog.LocalLog) *gofastcache.LocalCache {
+	return gofastcache.New(localLogger_)
 }

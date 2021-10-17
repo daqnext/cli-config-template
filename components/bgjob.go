@@ -1,8 +1,11 @@
 package components
 
-import "github.com/daqnext/BGJOB_GO/bgjob"
+import (
+	"github.com/daqnext/BGJOB_GO/bgjob"
+	"github.com/daqnext/LocalLog/log"
+)
 
-func InitBGJobs() *bgjob.JobManager {
+func InitBGJobs(localLogger *log.LocalLog) *bgjob.JobManager {
 	//////// ini bGJob   //////////////////////
-	return bgjob.New()
+	return bgjob.New(localLogger)
 }

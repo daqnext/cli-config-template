@@ -20,3 +20,11 @@ func StartLog(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 		clitool.LocalLogger.PrintLastN_AllLogs(num)
 	}
 }
+
+func init() {
+
+	if !clitool.AppIsActive(clitool.APP_NAME_LOG) {
+		return
+	}
+
+}

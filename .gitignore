@@ -1,5 +1,7 @@
 .vscode
 *.exe
+*.so
+*.lib
 configs/pro
 logs
 cli-config-template

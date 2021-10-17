@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/daqnext/ECTSM-go/http/server"
+	localLog "github.com/daqnext/LocalLog/log"
 	fj "github.com/daqnext/fastjson"
 )
 
@@ -11,7 +12,7 @@ import (
 ectm_s_pubkey
 ectm_s_prikey
 */
-func InitEctmServer(ConfigJson *fj.FastJson) (*server.EctHttpServer, error) {
+func InitEctmServer(localLogger_ *localLog.LocalLog, ConfigJson *fj.FastJson) (*server.EctHttpServer, error) {
 
 	_, err_pubkey := ConfigJson.GetString("ectm_s_pubkey")
 	if err_pubkey != nil {
@@ -24,7 +25,7 @@ func InitEctmServer(ConfigJson *fj.FastJson) (*server.EctHttpServer, error) {
 		return nil, errors.New("ectm_s_prikey [string] in config.json not defined," + err_prikey.Error())
 	}
 
-	ECTM_Server, err_ectmservernew := server.New(ECTM_S_PriKey)
+	ECTM_Server, err_ectmservernew := server.New(ECTM_S_PriKey, localLogger_)
 	if err_ectmservernew != nil {
 		return nil, err_ectmservernew
 	}

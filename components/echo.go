@@ -48,11 +48,11 @@ func InitEchoServer(localLogger_ *localLog.LocalLog, ConfigJson *fj.FastJson) (*
 	return esP, nil
 }
 
-func (s *EchoServer) Start() {
+func (s *EchoServer) Start() error {
 	s.localLogger.Infoln("http server started on port :" + strconv.Itoa(s.Http_port))
 	s.localLogger.Infoln("http server with static folder:" + s.Http_static_abs_folder)
 	s.Echo.Static("/", s.Http_static_abs_folder)
-	s.Echo.Start(":" + strconv.Itoa(s.Http_port))
+	return s.Echo.Start(":" + strconv.Itoa(s.Http_port))
 }
 
 func (s *EchoServer) Close() {

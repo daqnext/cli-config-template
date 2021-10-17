@@ -12,6 +12,7 @@ import (
 func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 
 	defer func() {
+		clitool.LocalLogger.Infoln("StartDefault closed , start to ReleaseResource()")
 		global.ReleaseResource()
 	}()
 
@@ -20,9 +21,15 @@ func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 	clitool.LocalLogger.Infoln("hello world , this default app")
 	somepack.HowToGetGlobalParam()
 	///start the server
-	global.EchoServer.Start()
+	err := global.EchoServer.Start()
+	if err != nil {
+		clitool.LocalLogger.Fatalln(err)
+	}
+
 }
 
 func init() {
-
+	if !clitool.AppIsActive(clitool.APP_NAME_DEFAULT) {
+		return
+	}
 }
