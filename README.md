@@ -21,6 +21,6 @@ go build && ./cli-config-template logs --onlyerr  --num=10   //only print error 
 
 ### publish
 ```
-bring your 'assets' and 'config' folder together with your exe
+bring your 'assets' and 'configs' folder together with your exe
 as these folders are usded in runtime
 ```
