@@ -59,6 +59,14 @@ func (s *EchoServer) Close() {
 	s.Echo.Close()
 }
 
+func neglectErrors(status int) bool {
+	if status == 404 || status == 405 {
+		return true
+	} else {
+		return false
+	}
+}
+
 func NewEchoLogger(l *localLog.LocalLog) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -68,7 +76,7 @@ func NewEchoLogger(l *localLog.LocalLog) echo.MiddlewareFunc {
 				c.Error(err)
 				//don't log the err if it is 404 requests
 				//too many noise requests
-				if err.Error() != "code=404, message=Not Found" || l.Level >= localLog.LLEVEL_DEBUG {
+				if !neglectErrors(c.Response().Status) || l.Level >= localLog.LLEVEL_DEBUG {
 					l.WithFields(localLog.Fields{
 						"request":     c.Request().RequestURI,
 						"method":      c.Request().Method,
