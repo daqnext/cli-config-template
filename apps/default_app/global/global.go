@@ -83,6 +83,11 @@ func init() {
 	// 	cli.LocalLogger.Fatal(err.Error())
 	// }
 
+	// ESUploader, err = components.InitESUploader(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+
 	cli.LocalLogger.Info("=========== end of init system ==================")
 
 	GLOBAL_INIT_FINISHED = true
