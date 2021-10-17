@@ -66,16 +66,19 @@ func NewEchoLogger(l *localLog.LocalLog) echo.MiddlewareFunc {
 			err := next(c)
 			if err != nil {
 				c.Error(err)
-				//error log
-				l.WithFields(localLog.Fields{
-					"request":     c.Request().RequestURI,
-					"method":      c.Request().Method,
-					"remote":      c.Request().RemoteAddr,
-					"status":      c.Response().Status,
-					"text_status": http.StatusText(c.Response().Status),
-					"took":        time.Since(start),
-					"request_id":  c.Request().Header.Get("X-Request-Id"),
-				}).Errorln("request error:" + err.Error())
+				//don't log the err if it is 404 requests
+				//too many noise requests
+				if err.Error() != "code=404, message=Not Found" || l.Level >= localLog.LLEVEL_DEBUG {
+					l.WithFields(localLog.Fields{
+						"request":     c.Request().RequestURI,
+						"method":      c.Request().Method,
+						"remote":      c.Request().RemoteAddr,
+						"status":      c.Response().Status,
+						"text_status": http.StatusText(c.Response().Status),
+						"took":        time.Since(start),
+						"request_id":  c.Request().Header.Get("X-Request-Id"),
+					}).Errorln("request error:" + err.Error())
+				}
 
 			} else {
 				//info log ,only for loglevels : debug or trace
