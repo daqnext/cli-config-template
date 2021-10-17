@@ -49,38 +49,39 @@ func init() {
 
 	cli.LocalLogger.Info("init system .....")
 	////////////ini more components config as you need///////////////////
-	GormDB, sqlDB, err = components.InitDB(cli.LocalLogger, cli.AppToDO.ConfigJson)
-	if err != nil {
-		cli.LocalLogger.Fatal(err.Error())
-	}
-
-	Redis, err = components.InitRedis(cli.AppToDO.ConfigJson)
-	if err != nil {
-		cli.LocalLogger.Fatal(err.Error())
-	}
-	SpMgr, err = components.InitSprJobs(cli.LocalLogger, cli.AppToDO.ConfigJson)
-	if err != nil {
-		cli.LocalLogger.Fatal(err.Error())
-	}
-	EctServer, err = components.InitEctmServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
-	if err != nil {
-		cli.LocalLogger.Fatal(err.Error())
-	}
-
-	InfuraClient, err = components.InitInfura(cli.AppToDO.ConfigJson)
-	if err != nil {
-		cli.LocalLogger.Fatal(err.Error())
-	}
 
 	EchoServer, err = components.InitEchoServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
 	if err != nil {
 		cli.LocalLogger.Fatal(err.Error())
 	}
 
-	ElasticSClient, err = components.InitElasticSearch(cli.AppToDO.ConfigJson)
-	if err != nil {
-		cli.LocalLogger.Fatal(err.Error())
-	}
+	// GormDB, sqlDB, err = components.InitDB(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+
+	// Redis, err = components.InitRedis(cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+	// SpMgr, err = components.InitSprJobs(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+	// EctServer, err = components.InitEctmServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+
+	// InfuraClient, err = components.InitInfura(cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
+
+	// ElasticSClient, err = components.InitElasticSearch(cli.AppToDO.ConfigJson)
+	// if err != nil {
+	// 	cli.LocalLogger.Fatal(err.Error())
+	// }
 
 	cli.LocalLogger.Info("=========== end of init system ==================")
 
