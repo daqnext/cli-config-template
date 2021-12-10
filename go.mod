@@ -8,6 +8,7 @@ require (
 	github.com/daqnext/ESUploader v0.2.6
 	github.com/daqnext/LocalLog v0.2.4
 	github.com/daqnext/SPR-go v1.1.3
+	github.com/daqnext/daemon v1.0.1
 	github.com/daqnext/fastjson v1.0.0
 	github.com/daqnext/go-fast-cache v1.0.6
 	github.com/daqnext/go-smart-routine v0.1.5

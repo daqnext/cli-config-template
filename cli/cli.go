@@ -1,13 +1,16 @@
 package cli
 
 import (
+	"github.com/daqnext/utils/color_util"
 	"log"
 	"os"
-
-	"github.com/daqnext/utils/color_util"
 )
 
 func init() {
+	//if strings.HasSuffix(os.Args[0], ".test") {
+	//	return
+	//}
+
 	//print any initialzation panic
 	defer func() {
 		if err := recover(); err != nil {

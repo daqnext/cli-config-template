@@ -17,8 +17,12 @@ var AppToDO *APP
 
 const APP_NAME_DEFAULT = "default"
 const APP_NAME_LOG = "logs"
+const APP_NAME_SERVICE = "service"
 
 func AppIsActive(appName string) bool {
+	if AppToDO == nil {
+		return false
+	}
 	if AppToDO.AppName == appName {
 		return true
 	} else {
@@ -58,6 +62,85 @@ func configCliApp() *cli.App {
 						return todoerr
 					}
 					return nil
+				},
+			},
+			{
+				Name:    APP_NAME_SERVICE,
+				Aliases: []string{APP_NAME_SERVICE},
+				Usage:   "print all logs ",
+				Subcommands: []*cli.Command{
+					//service install
+					{
+						Name:  "install",
+						Usage: "install meson node as service",
+						Action: func(c *cli.Context) error {
+							AppToDO, todoerr = getAppToDo(APP_NAME_SERVICE, false, c)
+							if todoerr != nil {
+								return todoerr
+							}
+							return nil
+						},
+					},
+					//service remove
+					{
+						Name:  "remove",
+						Usage: "remove meson node from service",
+						Action: func(c *cli.Context) error {
+							AppToDO, todoerr = getAppToDo(APP_NAME_SERVICE, false, c)
+							if todoerr != nil {
+								return todoerr
+							}
+							return nil
+						},
+					},
+					//service start
+					{
+						Name:  "start",
+						Usage: "run meson node",
+						Action: func(c *cli.Context) error {
+							AppToDO, todoerr = getAppToDo(APP_NAME_SERVICE, false, c)
+							if todoerr != nil {
+								return todoerr
+							}
+							return nil
+						},
+					},
+					//service stop
+					{
+						Name:  "stop",
+						Usage: "stop meson node",
+						Action: func(c *cli.Context) error {
+							AppToDO, todoerr = getAppToDo(APP_NAME_SERVICE, false, c)
+							if todoerr != nil {
+								return todoerr
+							}
+							return nil
+						},
+					},
+					//service restart
+					{
+						Name:  "restart",
+						Usage: "restart meson node",
+						Action: func(c *cli.Context) error {
+							AppToDO, todoerr = getAppToDo(APP_NAME_SERVICE, false, c)
+							if todoerr != nil {
+								return todoerr
+							}
+							return nil
+						},
+					},
+					//service status
+					{
+						Name:  "status",
+						Usage: "show meson node status",
+						Action: func(c *cli.Context) error {
+							AppToDO, todoerr = getAppToDo(APP_NAME_SERVICE, false, c)
+							if todoerr != nil {
+								return todoerr
+							}
+							return nil
+						},
+					},
 				},
 			},
 		},
