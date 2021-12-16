@@ -1,11 +1,9 @@
-package service_app
+package service
 
 import (
 	"fmt"
 	clitool "github.com/daqnext/cli-config-template/cli"
 	"github.com/daqnext/daemon"
-	fj "github.com/daqnext/fastjson"
-	"github.com/urfave/cli/v2"
 	"log"
 	"os"
 	"runtime"
@@ -21,9 +19,9 @@ type Service struct {
 	daemon.Daemon
 }
 
-func RunServiceCmd(ConfigJson *fj.FastJson, CliContext *cli.Context) {
+func RunServiceCmd() {
 	//check command
-	subCmds := CliContext.Command.Names()
+	subCmds := clitool.CmdToDo.CliContext.Command.Names()
 	if len(subCmds) == 0 {
 		clitool.LocalLogger.Fatalln("no sub command")
 		return

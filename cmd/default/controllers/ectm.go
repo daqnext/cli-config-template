@@ -5,20 +5,12 @@ import (
 
 	"github.com/daqnext/ECTSM-go/http/server"
 	ectsmUtil "github.com/daqnext/ECTSM-go/utils"
-	"github.com/daqnext/cli-config-template/apps/default_app/global"
+	"github.com/daqnext/cli-config-template/cmd/default/global"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func CheckToken() bool {
-	return true
-}
-
-func init() {
-
-	if !global.GLOBAL_INIT_FINISHED {
-		return
-	}
+func ectmRouter() {
 
 	global.EchoServer.Echo.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		ExposeHeaders: []string{

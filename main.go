@@ -1,24 +1,22 @@
 package main
 
 import (
-	defaultApp "github.com/daqnext/cli-config-template/apps/default_app"
-	logApp "github.com/daqnext/cli-config-template/apps/logs_app"
-	serviceApp "github.com/daqnext/cli-config-template/apps/service_app"
 	"github.com/daqnext/cli-config-template/cli"
+	defaultCmd "github.com/daqnext/cli-config-template/cmd/default"
+	logCmd "github.com/daqnext/cli-config-template/cmd/logs"
+	serviceCmd "github.com/daqnext/cli-config-template/cmd/service"
 )
 
 func main() {
-	if cli.AppToDO == nil {
-		return
-	}
+	cli.ReadArgs()
 
-	switch cli.AppToDO.AppName {
-	case cli.APP_NAME_LOG:
-		logApp.StartLog(cli.AppToDO.ConfigJson, cli.AppToDO.CliContext)
-	case cli.APP_NAME_SERVICE:
-		serviceApp.RunServiceCmd(cli.AppToDO.ConfigJson, cli.AppToDO.CliContext)
+	switch cli.CmdToDo.CmdName {
+	case cli.CMD_NAME_LOG:
+		logCmd.StartLog()
+	case cli.CMD_NAME_SERVICE:
+		serviceCmd.RunServiceCmd()
 	default:
 		cli.LocalLogger.Infoln("======== start default app ===")
-		defaultApp.StartDefault(cli.AppToDO.ConfigJson, cli.AppToDO.CliContext)
+		defaultCmd.StartDefault()
 	}
 }

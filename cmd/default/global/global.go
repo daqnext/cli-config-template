@@ -19,8 +19,6 @@ import (
 	"github.com/daqnext/ESUploader/uploader"
 )
 
-var GLOBAL_INIT_FINISHED bool
-
 var ESUploader *uploader.Uploader
 var Redis *redis.ClusterClient
 var EchoServer *components.EchoServer
@@ -33,16 +31,9 @@ var EctServer *server.EctHttpServer
 var InfuraClient *components.InfuraClient
 var ElasticSClient *elasticsearch.Client
 
-func init() {
-	if !cli.AppIsActive(cli.APP_NAME_DEFAULT) {
-		return
-	}
-
+func Init() {
+	var err error
 	//init your global components
-	err := components.InitLocalLog(cli.LocalLogger, cli.AppToDO.ConfigJson)
-	if err != nil {
-		panic(err.Error())
-	}
 	LocalCache = components.InitFastCache(cli.LocalLogger)
 	components.InitSmartRoutine()
 	BGJobM = components.InitBGJobs(cli.LocalLogger)
@@ -50,7 +41,7 @@ func init() {
 	cli.LocalLogger.Info("init system .....")
 	////////////ini more components config as you need///////////////////
 
-	EchoServer, err = components.InitEchoServer(cli.LocalLogger, cli.AppToDO.ConfigJson)
+	EchoServer, err = components.InitEchoServer(cli.LocalLogger, cli.CmdToDo.ConfigJson)
 	if err != nil {
 		cli.LocalLogger.Fatal(err.Error())
 	}
@@ -89,8 +80,6 @@ func init() {
 	// }
 
 	cli.LocalLogger.Info("=========== end of init system ==================")
-
-	GLOBAL_INIT_FINISHED = true
 
 }
 

@@ -1,0 +1,23 @@
+{
+  "config": "pro",
+  "local_log_level":"DEBU",
+  "http_port": 80,
+  "http_static_rel_folder": "/assets/apps/default_app/web",
+  "ectm_s_prikey": "xxxx",
+  "ectm_s_pubkey": "yyyy",
+  "db_host": "xxxxxx",
+  "db_port": 3306,
+  "db_username": "xxxxx",
+  "db_password": "xxxxxx",
+  "db_name": "xxxxx",
+  "redis_addr":"127.0.0.1",
+  "redis_port": 6379,
+  "redis_username": "",
+  "redis_password": "",
+  "elasticsearch_addr": "xxxxx",
+  "elasticsearch_username": "xxxxx",
+  "elasticsearch_password": "xxxxx",
+  "infura1": "xxxx",
+  "infura2": "xxxxx",
+  "eth_wallet_mnemonic": "xxxx"
+}

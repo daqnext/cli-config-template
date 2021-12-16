@@ -3,5 +3,6 @@
 *.so
 *.lib
 configs/pro
-logs
 cli-config-template
+/test/
+/logs/

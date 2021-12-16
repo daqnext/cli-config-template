@@ -6,11 +6,7 @@ import (
 	"os"
 )
 
-func init() {
-	//if strings.HasSuffix(os.Args[0], ".test") {
-	//	return
-	//}
-
+func ReadArgs() {
 	//print any initialzation panic
 	defer func() {
 		if err := recover(); err != nil {
@@ -19,9 +15,10 @@ func init() {
 	}()
 
 	//ini logger
-	iniLocalLogger()
+	IniLocalLogger()
+
 	//config app to run
-	errRun := configCliApp().Run(os.Args)
+	errRun := configCliCmd().Run(os.Args)
 	if errRun != nil {
 		log.Fatal(errRun)
 		panic(errRun.Error())

@@ -1,20 +1,21 @@
 package defaultapp
 
 import (
-	_ "github.com/daqnext/cli-config-template/apps/default_app/controllers"
-	"github.com/daqnext/cli-config-template/apps/default_app/global"
-	"github.com/daqnext/cli-config-template/apps/default_app/somepack"
 	clitool "github.com/daqnext/cli-config-template/cli"
-	fj "github.com/daqnext/fastjson"
-	"github.com/urfave/cli/v2"
+	"github.com/daqnext/cli-config-template/cmd/default/controllers"
+	_ "github.com/daqnext/cli-config-template/cmd/default/controllers"
+	"github.com/daqnext/cli-config-template/cmd/default/global"
+	"github.com/daqnext/cli-config-template/cmd/default/somepack"
 )
 
-func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
-
+func StartDefault() {
+	global.Init()
 	defer func() {
 		clitool.LocalLogger.Infoln("StartDefault closed , start to ReleaseResource()")
 		global.ReleaseResource()
 	}()
+
+	controllers.DeployApi()
 
 	//print logo
 	clitool.LocalLogger.Infoln(clitool.Logo)
@@ -26,10 +27,4 @@ func StartDefault(ConfigJson *fj.FastJson, CliContext *cli.Context) {
 		clitool.LocalLogger.Fatalln(err)
 	}
 
-}
-
-func init() {
-	if !clitool.AppIsActive(clitool.APP_NAME_DEFAULT) {
-		return
-	}
 }

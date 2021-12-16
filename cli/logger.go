@@ -8,8 +8,7 @@ import (
 
 var LocalLogger *localLog.LocalLog
 
-func iniLocalLogger() {
-
+func IniLocalLogger() {
 	var llerr error
 	LocalLogger, llerr = localLog.New(path_util.GetAbsPath("logs"), 2, 20, 30)
 
@@ -17,4 +16,16 @@ func iniLocalLogger() {
 		color_util.ColorPrintln(color_util.Red, "Error:")
 		panic("local_log error:" + llerr.Error())
 	}
+}
+
+func SetLogLevel(logLevel string) error {
+	err := LocalLogger.ResetLevel(logLevel)
+	if err != nil {
+		return err
+	}
+
+	if logLevel == "DEBU" {
+		LocalLogger.SetReportCaller(true)
+	}
+	return nil
 }

@@ -5,5 +5,5 @@ import (
 )
 
 func HowToGetGlobalParam() {
-	cli.LocalLogger.Infoln(cli.AppToDO.ConfigJson.GetString("config"))
+	cli.LocalLogger.Infoln(cli.CmdToDo.ConfigJson.GetString("config"))
 }

@@ -3,14 +3,11 @@ package controllers
 import (
 	"time"
 
-	"github.com/daqnext/cli-config-template/apps/default_app/global"
+	"github.com/daqnext/cli-config-template/cmd/default/global"
 	"github.com/labstack/echo/v4"
 )
 
-func init() {
-	if !global.GLOBAL_INIT_FINISHED {
-		return
-	}
+func healthRouter() {
 
 	global.EchoServer.Echo.GET("/heartbeat", func(c echo.Context) error {
 		r := struct {
